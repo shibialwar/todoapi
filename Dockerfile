@@ -1,19 +1,18 @@
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-1709 AS base
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
-EXPOSE 80
 
-FROM microsoft/dotnet:2.1-sdk-nanoserver-1709 AS build
-WORKDIR /src
-COPY TodoApi/TodoApi.csproj TodoApi/
-RUN dotnet restore TodoApi/TodoApi.csproj
-COPY . .
-WORKDIR /src/TodoApi
-RUN dotnet build TodoApi.csproj -c Release -o /app
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY todoapi/*.csproj ./todoapi/
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish TodoApi.csproj -c Release -o /app
+# copy everything else and build app
+COPY todoapi/. ./todoapi/
+WORKDIR /app/todoapi
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "TodoApi.dll"]
+COPY --from=build /app/todoapi/out ./
+ENTRYPOINT ["dotnet", "todoapi.dll"]
