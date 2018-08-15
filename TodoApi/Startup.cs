@@ -37,7 +37,12 @@ namespace TodoApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles();
+           
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames = new
+    List<string> { "index.html" }
+            });
             app.UseStaticFiles();
 
             // Enable the Swagger UI middleware and the Swagger generator
