@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NJsonSchema;
 using NSwag.AspNetCore;
+using System.Collections.Generic;
 using System.Reflection;
 using TodoApi.Models;
 
