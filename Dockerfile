@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.1.400-sdk AS build
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
+COPY *.sln ./
 COPY todoapi/*.csproj ./todoapi/
 RUN dotnet restore
 
