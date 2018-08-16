@@ -3,7 +3,7 @@ WORKDIR /app
 
 # copy csproj and restore as distinct layers
 COPY *.sln .
-COPY TodoApi/*.csproj ./todoapi/
+COPY todoapi/*.csproj ./todoapi/
 RUN dotnet restore
 
 # copy everything else and build app
